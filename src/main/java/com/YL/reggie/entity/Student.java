@@ -22,4 +22,7 @@ public class Student implements Serializable {
     //时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime time;
+
+    //学习状态图片路径
+    private String path;
 }

@@ -51,8 +51,8 @@ public class SendMessageController {
         //根据时间查询一次的学生状态
         queryWrapper.orderByDesc(Student::getTime);
         queryWrapper.last("limit 0,10");
-//        queryWrapper.last("limit 1");
-//        Student one = studentService.getOne(queryWrapper);
+//      queryWrapper.last("limit 1");
+//      Student one = studentService.getOne(queryWrapper);
         List<Student> list = studentService.list(queryWrapper);
         //返回学生状态
         return R.success(list);
