@@ -22,6 +22,9 @@ public class FileDetailController {
     @Autowired
     private FileStorageService fileStorageService;
 
+    @Autowired
+    private FileDetailService fileDetailService;
+
     @PostMapping("/uploadImage") // 给我写一个Java代码，要求用get请求，没有参数，
     public FileInfo uploadImage(MultipartFile image) {
         return fileStorageService.of(image)
@@ -51,15 +54,16 @@ public class FileDetailController {
 //        return isOK ? tempFileInfo : null;
     }
 
-//    @GetMapping("/getImage") // 给我写一个Java代码，要求用get请求，没有参数，
-//    public FileInfo getImage() {
-//        //从数据库表send message查询信息集合
-//        LambdaQueryWrapper<FileDetail> queryWrapper = new LambdaQueryWrapper<>();
-//        //根据时间查询最近十次信息
-//        queryWrapper.orderByDesc(SendMessage::getTime);
-//        queryWrapper.last("limit 0,10");
-//        List<FileDetail> list = sendMessageService.list(queryWrapper);
-//        // 下载为字节数组
+    @GetMapping("/getImage") // 给我写一个Java代码，要求用get请求，没有参数，
+    public FileInfo getImage() {
+        //从数据库表send message查询信息集合
+        LambdaQueryWrapper<FileDetail> queryWrapper = new LambdaQueryWrapper<>();
+        //根据时间查询最近十次信息
+//        queryWrapper.orderByDesc(fileDetailService::);
+        queryWrapper.last("limit 0,10");
+        List<FileDetail> list = fileDetailService.list(queryWrapper);
+        // 下载为字节数组
 //        byte[] bytes = fileStorageService.download(fileInfo).bytes();
-//    }
+        return null;
+    }
 }
