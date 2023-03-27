@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class SendMessage implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long COL_URL = 1L;
 
     //返回的信息
     private String content;
