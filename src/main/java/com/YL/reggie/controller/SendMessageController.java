@@ -8,10 +8,9 @@ import com.YL.reggie.service.StudentService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,7 +27,7 @@ public class SendMessageController {
     private StudentService studentService;
 
     //发送十条最近家长的信息 /message/parents
-    @PostMapping("/parents")
+    @GetMapping("/parents")
     public R<List<SendMessage>> parents() {
         //从数据库表send message查询信息集合
         LambdaQueryWrapper<SendMessage> queryWrapper = new LambdaQueryWrapper<>();
@@ -37,8 +36,23 @@ public class SendMessageController {
         queryWrapper.last("limit 0,10");
         List<SendMessage> list = sendMessageService.list(queryWrapper);
         //遍历send message对象集合,获取每个对象中封装的信息
+//        ArrayList<String> list1 = new ArrayList<>();
+//        for (SendMessage mess : list) {
+//            list1.add(mess.getContent());
+//        }
+//        //返回信息
+//        return R.success(list1);
         //返回信息
         return R.success(list);
+    }
+    // 家长发送消息
+    @GetMapping("/sentMessage")
+    public R<String> sentMessage(@RequestParam String message) {
+
+        SendMessage messageInfo = new SendMessage();
+        messageInfo.setContent(message);
+        boolean isOk = sendMessageService.save(messageInfo);
+        return isOk ? R.success("发送成功") : R.error("发送失败");
     }
 
     //返回学生的学习状态
