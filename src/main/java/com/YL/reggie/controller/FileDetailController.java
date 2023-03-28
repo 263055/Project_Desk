@@ -25,7 +25,7 @@ public class FileDetailController {
     @Autowired
     private FileDetailService fileDetailService;
 
-    @PostMapping("/uploadImage") // 给我写一个Java代码，要求用get请求，没有参数，
+    @PostMapping("/uploadImage")
     public FileInfo uploadImage(MultipartFile image) {
         return fileStorageService.of(image)
                 .image(img -> img.size(1000, 1000))
