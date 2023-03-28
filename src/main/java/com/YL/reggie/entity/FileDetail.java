@@ -26,5 +26,5 @@ public class FileDetail {
     private String objectId;
     private String objectType;
     private String attr;
-    private Timestamp createTime;
+    private Timestamp createTime; // LocalDateTime
 }
