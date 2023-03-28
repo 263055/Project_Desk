@@ -55,7 +55,9 @@ public class SendMessageController {
         return isOk ? R.success("发送成功") : R.error("发送失败");
     }
 
-    //返回学生的学习状态
+    /**
+     * 返回学生的学习状态
+     */
     @PostMapping("/students")
     public R<List<Student>> students(String s) {
         //需要返回的信息集合

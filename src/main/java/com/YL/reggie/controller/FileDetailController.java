@@ -2,6 +2,7 @@ package com.YL.reggie.controller;
 
 import cn.xuyanwu.spring.file.storage.FileInfo;
 import cn.xuyanwu.spring.file.storage.FileStorageService;
+import com.YL.reggie.common.R;
 import com.YL.reggie.entity.FileDetail;
 import com.YL.reggie.entity.Picture;
 import com.YL.reggie.entity.SendMessage;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,8 +31,12 @@ public class FileDetailController {
     @Autowired
     private FileDetailService fileDetailService;
 
+    /**
+     * 完成了发送照片信息的需求
+     * 需要请求python代码
+     */
     @GetMapping("/getImage") // 给我写一个Java代码，要求用get请求，没有参数，
-    public List<Picture> getImage() {
+    public R<List<Picture>> getImage() {
         //从数据库表send message查询信息集合
         LambdaQueryWrapper<FileDetail> queryWrapper = new LambdaQueryWrapper<>();
         //根据时间查询最近十次信息
@@ -41,19 +47,19 @@ public class FileDetailController {
 //            byte[] bytes = fileStorageService.download(item.getUrl()).bytes();
 //            return new Picture(item, bytes);
 //        }).collect(Collectors.toList());
-
-
         List<Picture> res = list.stream().map((item) -> {
             Picture picture = new Picture();
             picture.setFileDetail(item);
             FileInfo fileInfo = new FileInfo();
             BeanUtils.copyProperties(item, fileInfo);
 //          下载为字节数组
-            byte[] bytes = fileStorageService.download(fileInfo).bytes();
-            picture.setAByte(bytes);
+//            byte[] bytes = fileStorageService.download(fileInfo).bytes();
+//            picture.setAByte(bytes);
+            picture.setUrl("");
+            picture.setStatus("");
             return picture;
         }).collect(Collectors.toList());
-        return res;
+        return R.success(res);
     }
 
     @PostMapping("/uploadImage")
